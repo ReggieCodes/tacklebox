@@ -18,6 +18,7 @@ def getShow(show_type):
 	parsed_json = json.loads(json_string)
 	return parsed_json
 
+##since we're not a webpage we have to do some cleanup on the setlist string
 def displaySetlist(sl_text):
 	sl_text = re.sub('Set 1: ', '\nSet 1: ',sl_text)
 	sl_text = re.sub('Set 2: ', '\nSet 2: ',sl_text)
@@ -29,6 +30,44 @@ def displaySetlist(sl_text):
 	encore = encore[0:encore.find('[1] ')]
 	sl_text = sl_text + encore + '\n' + notes
 	return sl_text
+
+##Check JEMP for if Phish is playing
+def jemp():
+	jemp_conn = http.client.HTTPSConnection("public.radio.co")
+	station = 'stations/sd71de59b3/status'
+	payload = "{}"
+	jemp_conn.request("GET", station, payload)
+	res = jemp_conn.getresponse()
+	data = res.read()
+
+	json_string = data.decode("utf-8")
+	now_playing = json.loads(json_string)
+
+	print("JEMP is currently playing: " + now_playing["current_track"]["title"])
+	song = now_playing["current_track"]["title"]
+
+	artist = song[0:7]
+	showdate = song[song.find("(")+1:song.find(")")]
+
+	if artist == 'Phish -':
+		print("Phish is playing!")
+		if int(showdate[-2:]) < 80:
+			year = str(int(showdate[-2:]) + 2000)
+		else:
+			year = str(int(showdate[-2:]) + 1900)
+
+		month = showdate[:-3]
+		month = "000" + month[:month.find("-")]
+		month = month[-2:]
+		day = showdate[:-3]
+		day = "000" + day[day.find("-")+1:]
+		day = day[-2:]
+		show = year + "-" + month + "-" + day
+	else:
+		print("Phish is not playing :(")
+		show = "1900-01-01"
+
+	return(show)
 
 ###Get API Key
 fo = open("api.txt","r")
@@ -42,6 +81,7 @@ parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
 parser.add_argument("--date", default="1900-01-01")
 parser.add_argument("--previous", action="store_true")
 parser.add_argument("--latest", action="store_true")
+parser.add_argument("--jemp",action="store_true")
 args = parser.parse_args()
 #########################################
 
@@ -55,6 +95,14 @@ else:
 
 if args.latest == True:
 	show_type = '/v3/setlists/latest?apikey=' + apikey
+
+if args.jemp == True:
+	showdate = jemp()
+	if showdate == '1900-01-01':
+		print("Since Phish isn't playing here's the last show you got:")
+		callhome = False
+	else:
+		show_type = '/v3/setlists/get?apikey=' + apikey + '&showdate=' + showdate
 
 if callhome == True:
 	setlist = getShow(show_type)
