@@ -18,14 +18,11 @@ def getShow(show_type):
 	parsed_json = json.loads(json_string)
 	return parsed_json
 
-def pretty_up(bad_string):
-	bad_string = re.sub('Set 1: ', '\nSet 1: ',bad_string)
-	bad_string = re.sub('Set 2: ', '\nSet 2: ',bad_string)
-	bad_string = re.sub('Set 3: ', '\nSet 3: ',bad_string)
-	bad_string = re.sub('Encore: ', '\nEncore: ',bad_string)
-	return bad_string
-
 def displaySetlist(sl_text):
+	sl_text = re.sub('Set 1: ', '\nSet 1: ',sl_text)
+	sl_text = re.sub('Set 2: ', '\nSet 2: ',sl_text)
+	sl_text = re.sub('Set 3: ', '\nSet 3: ',sl_text)
+	sl_text = re.sub('Encore: ', '\nEncore: ',sl_text)
 	encore = sl_text[sl_text.find('Encore: '):]
 	notes = encore[encore.find('[1] '):]
 	sl_text = sl_text[0:sl_text.find('Encore: ')]
@@ -67,8 +64,7 @@ else:
 	setlist = json.loads(setlist_base)
 	fo.close
 
-
-sl_text = pretty_up(BeautifulSoup(setlist["response"]["data"][0]["setlistdata"],"html.parser").text)
+sl_text = BeautifulSoup(setlist["response"]["data"][0]["setlistdata"],"html.parser").text
 
 print("Show Date: " + setlist["response"]["data"][0]["showdate"])
 print("Venue: " + BeautifulSoup(setlist["response"]["data"][0]["venue"],"html.parser").text)
