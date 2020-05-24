@@ -82,6 +82,7 @@ parser.add_argument("--date", default="1900-01-01")
 parser.add_argument("--previous", action="store_true")
 parser.add_argument("--latest", action="store_true")
 parser.add_argument("--jemp",action="store_true")
+parser.add_argument("--tiph",action="store_true")
 args = parser.parse_args()
 #########################################
 
@@ -95,6 +96,9 @@ else:
 
 if args.latest == True:
 	show_type = '/v3/setlists/latest?apikey=' + apikey
+
+if args.tiph == True:
+	show_type = '/v3/setlists/tiph?apikey=' + apikey
 
 if args.jemp == True:
 	showdate = jemp()
