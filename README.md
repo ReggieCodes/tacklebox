@@ -27,15 +27,18 @@ The --previous flag will bring back the last show returned by Tacklebox.
 The --jemp flag will check to see what's playing on JEMP Radio and if it's Phish it will bring back the setlist for the entire show.
 
     python tacklebox.py --jemp
-The --tiph will bring back the Today In Phish History setlist
+The --tiph flag will bring back the Today In Phish History setlist
 
     python tacklebox.py --tiph
+The --progress flag will bring back the setlist for an in progress show, if one isn't in progress it returns the most recent show.
+
+    python tacklebox.py --progress
 
 ## To do
 
 1. I'm sure there are some bugs and oddities.  As I find them I will fix them.
 2. JEMP seems to work fine for individual songs, might need to add different parsing for full shows.
-3. I might add some more flags for different API calls as I dig into it more, like the "In Progress" call.
-4. Be able to check phish.in to see if the show exists before I decide to create the link to it.
+3. I might add some more flags for different API calls as I dig into it more.
+4. Be able to check phish.in to see if the show exists before I display the link out to it.
 
-### Thank you for looking at my project and I hope it inspires you to do your own.  Enjoy the music
+### Thank you for looking at my project. Enjoy the music

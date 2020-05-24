@@ -83,6 +83,7 @@ parser.add_argument("--previous", action="store_true")
 parser.add_argument("--latest", action="store_true")
 parser.add_argument("--jemp",action="store_true")
 parser.add_argument("--tiph",action="store_true")
+parser.add_argument("--progress",action="store_true")
 args = parser.parse_args()
 #########################################
 
@@ -99,6 +100,9 @@ if args.latest == True:
 
 if args.tiph == True:
 	show_type = '/v3/setlists/tiph?apikey=' + apikey
+
+if args.progress == True:
+	show_type = '/v3/setlists/progress?apikey=' + apikey
 
 if args.jemp == True:
 	showdate = jemp()
