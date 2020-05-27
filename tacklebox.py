@@ -25,11 +25,24 @@ def displaySetlist(sl_text):
 	sl_text = re.sub('Set 3: ', '\nSet 3: ',sl_text)
 	sl_text = re.sub('Encore: ', '\nEncore: ',sl_text)
 	encore = sl_text[sl_text.find('Encore: '):]
-	notes = encore[encore.find('[1] '):]
+	
+	if encore.find('[1] ') == -1:
+		notes = ''
+	else:
+		notes = encore[encore.find('[1] '):]
+	
 	sl_text = sl_text[0:sl_text.find('Encore: ')]
-	encore = encore[0:encore.find('[1] ')]
+	if encore.find('[1] ') != -1 :
+		encore = encore[0:encore.find('[1] ')]
+		
 	sl_text = sl_text + encore + '\n' + notes
 	return sl_text
+
+##Make a way to clean up the notes in case some of them are a little squirrley
+def displayNotes(sl_notes):
+	sl_notes = re.sub('\nvia phish.net','via phish.net',sl_notes) #some setlists have the newline, so remove those that do
+	sl_notes = re.sub('via phish.net','\nvia phish.net',sl_notes)
+	return sl_notes
 
 ##Check JEMP for if Phish is playing
 def jemp():
@@ -121,13 +134,14 @@ else:
 	fo.close
 
 sl_text = BeautifulSoup(setlist["response"]["data"][0]["setlistdata"],"html.parser").text
+sl_notes = BeautifulSoup(setlist["response"]["data"][0]["setlistnotes"],"html.parser").text
 
 print("Show Date: " + setlist["response"]["data"][0]["showdate"])
 print("Venue: " + BeautifulSoup(setlist["response"]["data"][0]["venue"],"html.parser").text)
 print("Location: " + BeautifulSoup(setlist["response"]["data"][0]["location"],"html.parser").text)
-print("Setlist: " + displaySetlist(sl_text))
-print("Notes: " + BeautifulSoup(setlist["response"]["data"][0]["setlistnotes"],"html.parser").text)
-print("Phish.in link: http://phish.in/" + setlist["response"]["data"][0]["showdate"])
+print("\nSetlist: " + displaySetlist(sl_text))
+print("\nNotes: " + displayNotes(sl_notes))
+print("\nPhish.in link: http://phish.in/" + setlist["response"]["data"][0]["showdate"])
 
 if callhome == True:
 	f = open("setlist.json","w+")
