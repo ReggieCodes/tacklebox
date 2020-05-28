@@ -85,6 +85,8 @@ def jemp():
 ###Get API Key
 fo = open("api.txt","r")
 apikey = fo.read()
+apikey = re.sub(' ', '',apikey)
+apikey = re.sub('\n','',apikey)
 fo.close()
 callhome = True
 #########################################
