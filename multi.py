@@ -23,7 +23,6 @@ fo.close()
 callhome = True
 ########################
 
-
 parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
 parser.add_argument("--pull", action="store_true")
 parser.add_argument("--song", default=None, type=str)
@@ -43,6 +42,15 @@ else:
     setlist = json.loads(setlist_base)
     fo.close
 
+songs = setlist["response"]["data"]   
+
 print(args.pull)
 print(args.song)
-print(setlist)
+for x in range(0,len(songs)-1):
+    if songs[x]["song"] == args.song:
+        songid = songs[x]["songid"]
+
+print(songid)
+
+show_type = '/v3/jamcharts/get?apikey=' + apikey + '&songid=' + str(songid)
+print(show_type)
