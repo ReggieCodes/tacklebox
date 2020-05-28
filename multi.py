@@ -25,24 +25,14 @@ callhome = True
 ########################
 
 parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
-parser.add_argument("--pull", action="store_true")
 parser.add_argument("--song", default=None, type=str)
 
 args = parser.parse_args()
 
+
+##Below is what I have to put into a function into Tacklebox
 show_type = '/v3/jamcharts/all?apikey=' + apikey 
-
-if args.pull == True:
-    setlist = getShow(show_type)
-    f = open("multi.json","w+")
-    json.dump(setlist, f)
-    f.close()
-else:
-    fo = open("multi.json","r")
-    setlist_base = fo.read()
-    setlist = json.loads(setlist_base)
-    fo.close
-
+setlist = getShow(show_type)
 songs = setlist["response"]["data"]   
 
 for x in range(0,len(songs)-1):
