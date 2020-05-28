@@ -3,6 +3,7 @@ import re
 import http.client
 import argparse
 from bs4 import BeautifulSoup
+import random
 
 ##func to get setlists
 def getShow(show_type):
@@ -44,13 +45,13 @@ else:
 
 songs = setlist["response"]["data"]   
 
-print(args.pull)
-print(args.song)
 for x in range(0,len(songs)-1):
     if songs[x]["song"] == args.song:
         songid = songs[x]["songid"]
 
-print(songid)
-
 show_type = '/v3/jamcharts/get?apikey=' + apikey + '&songid=' + str(songid)
-print(show_type)
+jamchart = getShow(show_type)
+jamchart = jamchart["response"]["data"]["entries"]
+print("There are " + str(len(jamchart)) + " Jamchart entries for " + args.song + ".")
+x = random.randrange(0,len(jamchart)-1)
+print(jamchart[x]["showdate"])
