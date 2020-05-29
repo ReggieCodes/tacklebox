@@ -93,12 +93,13 @@ callhome = True
 
 ###set up arguments
 parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
-parser.add_argument("--date", default="1900-01-01")
-parser.add_argument("--previous", action="store_true")
-parser.add_argument("--latest", action="store_true")
-parser.add_argument("--jemp",action="store_true")
-parser.add_argument("--tiph",action="store_true")
-parser.add_argument("--progress",action="store_true")
+group = parser.add_mutually_exclusive_group(required=False)
+group.add_argument("--date", default="1900-01-01")
+group.add_argument("--previous", action="store_true")
+group.add_argument("--latest", action="store_true")
+group.add_argument("--jemp",action="store_true")
+group.add_argument("--tiph",action="store_true")
+group.add_argument("--progress",action="store_true")
 args = parser.parse_args()
 #########################################
 
