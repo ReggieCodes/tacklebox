@@ -5,6 +5,7 @@ import re
 import http.client
 import argparse
 from bs4 import BeautifulSoup
+import random
 
 ##func to get setlists
 def getShow(show_type):
@@ -82,6 +83,31 @@ def jemp():
 
 	return(show)
 
+def jamcharts(songname):
+	show_type = '/v3/jamcharts/all?apikey=' + apikey 
+	setlist = getShow(show_type)
+	songs = setlist["response"]["data"]   
+
+	songid = -1
+	for x in range(0,len(songs)-1):
+		if songs[x]["song"] == songname:
+			songid = songs[x]["songid"]
+
+	if songid != -1:
+		show_type = '/v3/jamcharts/get?apikey=' + apikey + '&songid=' + str(songid)
+		jamchart = getShow(show_type)
+		jamchart = jamchart["response"]["data"]["entries"]
+		print("There are " + str(len(jamchart)) + " Jamchart entries for " + songname + ".")
+		x = random.randrange(0,len(jamchart)-1)
+		var = '/v3/setlists/get?apikey=' + apikey + '&showdate=' + jamchart[x]["showdate"]
+	else:
+		print("I'm sorry " + songname + " doesn't have any Jamchart listings. I'll display a random show")
+		var = '/v3/setlist/random?apikey=' + apikey 
+
+	return var
+
+##---Begin Main Script------------------------------------------------------------------------------------------------
+
 ###Get API Key
 fo = open("api.txt","r")
 apikey = fo.read()
@@ -100,6 +126,7 @@ group.add_argument("--latest", action="store_true")
 group.add_argument("--jemp",action="store_true")
 group.add_argument("--tiph",action="store_true")
 group.add_argument("--progress",action="store_true")
+group.add_argument("--song", default="Empty", type=str, help="Make sure to put songs in double quotes.")
 args = parser.parse_args()
 #########################################
 
@@ -127,6 +154,9 @@ if args.jemp == True:
 		callhome = False
 	else:
 		show_type = '/v3/setlists/get?apikey=' + apikey + '&showdate=' + showdate
+
+if args.song != "Empty":
+	show_type = jamcharts(args.song)
 
 if callhome == True:
 	setlist = getShow(show_type)
