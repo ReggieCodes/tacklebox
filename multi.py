@@ -25,7 +25,7 @@ callhome = True
 ########################
 
 parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
-parser.add_argument("--song", default=None, type=str)
+parser.add_argument("--song", default=None, type=str, help="Make sure to put songs in double quotes.")
 
 args = parser.parse_args()
 
@@ -35,13 +35,17 @@ show_type = '/v3/jamcharts/all?apikey=' + apikey
 setlist = getShow(show_type)
 songs = setlist["response"]["data"]   
 
+songid = -1
 for x in range(0,len(songs)-1):
     if songs[x]["song"] == args.song:
         songid = songs[x]["songid"]
 
-show_type = '/v3/jamcharts/get?apikey=' + apikey + '&songid=' + str(songid)
-jamchart = getShow(show_type)
-jamchart = jamchart["response"]["data"]["entries"]
-print("There are " + str(len(jamchart)) + " Jamchart entries for " + args.song + ".")
-x = random.randrange(0,len(jamchart)-1)
-print(jamchart[x]["showdate"])
+if songid != -1:
+	show_type = '/v3/jamcharts/get?apikey=' + apikey + '&songid=' + str(songid)
+	jamchart = getShow(show_type)
+	jamchart = jamchart["response"]["data"]["entries"]
+	print("There are " + str(len(jamchart)) + " Jamchart entries for " + args.song + ".")
+	x = random.randrange(0,len(jamchart)-1)
+	print(jamchart[x]["showdate"])
+else:
+	print("I'm sorry " + args.song + " doesn't have any Jamchart listings. I'll display a random show")
