@@ -46,6 +46,9 @@ if songid != -1:
 	jamchart = jamchart["response"]["data"]["entries"]
 	print("There are " + str(len(jamchart)) + " Jamchart entries for " + args.song + ".")
 	x = random.randrange(0,len(jamchart)-1)
-	print(jamchart[x]["showdate"])
+	var = '/v3/setlists/get?apikey=' + apikey + '&showdate=' + jamchart[x]["showdate"]
 else:
 	print("I'm sorry " + args.song + " doesn't have any Jamchart listings. I'll display a random show")
+	var = '/v3/setlist/random?apikey=' + apikey 
+
+print(var)
