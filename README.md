@@ -33,6 +33,9 @@ The --tiph flag will bring back the Today In Phish History setlist
 The --progress flag will bring back the setlist for an in progress show, if one isn't in progress it returns the most recent show.
 
     python tacklebox.py --progress
+The --jamchart flag will now bring back a show that has a jamcharts certified version of the song you're looking for, if it exists.  If none exists it will bring back a random show.  Songs should be in double quotes
+
+    python tacklebox.py --jamchart="Runaway Jim"
 
 ## To do
 

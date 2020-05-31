@@ -166,15 +166,18 @@ else:
 	setlist = json.loads(setlist_base)
 	fo.close
 
-sl_text = BeautifulSoup(setlist["response"]["data"][0]["setlistdata"],"html.parser").text
-sl_notes = BeautifulSoup(setlist["response"]["data"][0]["setlistnotes"],"html.parser").text
+if setlist["response"]["count"] != 0:
+	sl_text = BeautifulSoup(setlist["response"]["data"][0]["setlistdata"],"html.parser").text
+	sl_notes = BeautifulSoup(setlist["response"]["data"][0]["setlistnotes"],"html.parser").text
 
-print("Show Date: " + setlist["response"]["data"][0]["showdate"])
-print("Venue: " + BeautifulSoup(setlist["response"]["data"][0]["venue"],"html.parser").text)
-print("Location: " + BeautifulSoup(setlist["response"]["data"][0]["location"],"html.parser").text)
-print("\nSetlist: " + displaySetlist(sl_text))
-print("\nNotes: " + displayNotes(sl_notes))
-print("\nPhish.in link: http://phish.in/" + setlist["response"]["data"][0]["showdate"])
+	print("Show Date: " + setlist["response"]["data"][0]["showdate"])
+	print("Venue: " + BeautifulSoup(setlist["response"]["data"][0]["venue"],"html.parser").text)
+	print("Location: " + BeautifulSoup(setlist["response"]["data"][0]["location"],"html.parser").text)
+	print("\nSetlist: " + displaySetlist(sl_text))
+	print("\nNotes: " + displayNotes(sl_notes))
+	print("\nPhish.in link: http://phish.in/" + setlist["response"]["data"][0]["showdate"])
+else:
+	print("There was no show on that date, try again.")
 
 if callhome == True:
 	f = open("setlist.json","w+")
