@@ -106,6 +106,20 @@ def jamcharts(songname):
 
 	return var
 
+def randYear(yr):
+	show_type = '/v3/shows/query?apikey=' + apikey + '&order=ASC&year=' + yr + '&artistid=1'
+	setlist = getShow(show_type)
+
+	if int(setlist["response"]["count"]) > 0:
+		i = int(setlist["response"]["count"])
+		i = random.randrange(0,i-1)
+		var = '/v3/setlists/get?apikey=' + apikey + '&showdate=' +setlist["response"]["data"][i]["showdate"]
+	else:
+		print("I'm sorry Phish didn't play in " + yr + ". I'll display a random show")
+		var = '/v3/setlist/random?apikey=' + apikey
+
+	return var 
+
 ##---Begin Main Script------------------------------------------------------------------------------------------------
 
 ###Get API Key
@@ -127,11 +141,13 @@ group.add_argument("--jemp",action="store_true")
 group.add_argument("--tiph",action="store_true")
 group.add_argument("--progress",action="store_true")
 group.add_argument("--song", default="Empty", type=str, help="Make sure to put songs in double quotes.")
+group.add_argument("--year", default="1900", type=str, help="Make sure to put songs in double quotes.")
 args = parser.parse_args()
 #########################################
 
 if args.previous == True:
 	callhome = False
+	print("Displaying the last show you retrieved.")
 
 if args.date == '1900-01-01':
 	show_type = '/v3/setlist/random?apikey=' + apikey 
@@ -157,6 +173,9 @@ if args.jemp == True:
 
 if args.song != "Empty":
 	show_type = jamcharts(args.song)
+
+if args.year != "1900":
+	show_type = randYear(args.year)
 
 if callhome == True:
 	setlist = getShow(show_type)

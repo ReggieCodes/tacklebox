@@ -36,6 +36,9 @@ The --progress flag will bring back the setlist for an in progress show, if one 
 The --jamchart flag will now bring back a show that has a jamcharts certified version of the song you're looking for, if it exists.  If none exists it will bring back a random show.  Songs should be in double quotes
 
     python tacklebox.py --jamchart="Runaway Jim"
+The --year flag will bring back a random show from the year provided.  If they didn't play that year a random show is chosen
+
+    python tacklebox.py --year=2000
 
 ## To do
 
