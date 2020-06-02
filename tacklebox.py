@@ -132,16 +132,16 @@ callhome = True
 #########################################
 
 ###set up arguments
-parser = argparse.ArgumentParser(description='Welcome to Tacklebox!')
+parser = argparse.ArgumentParser(description='Welcome to Tacklebox! Your one stop shop for Phish setlists from the command line.')
 group = parser.add_mutually_exclusive_group(required=False)
-group.add_argument("--date", default="1900-01-01")
-group.add_argument("--previous", action="store_true")
-group.add_argument("--latest", action="store_true")
-group.add_argument("--jemp",action="store_true")
-group.add_argument("--tiph",action="store_true")
-group.add_argument("--progress",action="store_true")
+group.add_argument("--date", default="1900-01-01", help="Format = YYYY-MM-DD. Bad requests mean random show.")
+group.add_argument("--previous", action="store_true", help="Brings back the last show pulled.")
+group.add_argument("--latest", action="store_true", help="Brings back the latest complete show.")
+group.add_argument("--jemp",action="store_true", help="Checks JEMP for live Phish. Random if not.")
+group.add_argument("--tiph",action="store_true", help="Brings back Today in Phish History.")
+group.add_argument("--progress",action="store_true", help="Brings back In Progress show.  Or latest.")
 group.add_argument("--song", default="Empty", type=str, help="Make sure to put songs in double quotes.")
-group.add_argument("--year", default="1900", type=str, help="Make sure to put songs in double quotes.")
+group.add_argument("--year", default="1900", type=str, help="Four digit year. Random show if Phish didn't play.")
 args = parser.parse_args()
 #########################################
 
