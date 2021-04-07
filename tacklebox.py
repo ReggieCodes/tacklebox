@@ -25,6 +25,8 @@ def displaySetlist(sl_text):
 	sl_text = re.sub('Set 2: ', '\nSet 2: ',sl_text)
 	sl_text = re.sub('Set 3: ', '\nSet 3: ',sl_text)
 	sl_text = re.sub('Encore: ', '\nEncore: ',sl_text)
+	sl_text = re.sub('Encore 2: ', '\nEncore 2: ',sl_text)
+	sl_text = re.sub('Encore 3: ', '\nEncore 3: ',sl_text)
 	encore = sl_text[sl_text.find('Encore: '):]
 	
 	if encore.find('[1] ') == -1:
